@@ -96,36 +96,45 @@ write_list_2_file(list_average_downward_moment,'list_average_downward_moment.txt
 
 #thong ke neu dung rsi lam chi bao 
 #cho vong lap de tim ra chi so rsi toi uu
+
 for optimal_rsi in range(70,90):
+	#optimal_rsi=70
 	nb_dem_predict_success=0
 	nb_dem_predict_fail=0
+	total_profit=0
 	#array_over_bought=[]
 	for i in range(1,len(list_rsi)-1):
-
+		'''
 		if list_rsi[i-1,0]<optimal_rsi and list_rsi[i]>optimal_rsi:
 		#if list_rsi[i,0]>70:
 			#print(i)
 			if list_close[i+1,0]-list_open[i+1,0]<0:
 				#chi so bao do, ket qua tiep theo ve do
 				nb_dem_predict_success+=1
+				total_profit+=-(list_close[i+1,0]-list_open[i+1,0])/list_open[i+1,0]
 				#array_over_bought.append(list_rsi[i,0])
 			else:
 				nb_dem_predict_fail+=1
-	'''
-	if list_rsi[i-1]>20 and list_rsi[i]<20:
-		#print(i)
-		if list_close[i+1]-list_open[i+1]>0:
-			#chi so bao xanh, ket qua tiep theo ve xanh
-			nb_dem_predict_success+=1
-		else:
-			nb_dem_predict_fail+=1
-	'''
+				total_profit+=-(list_close[i+1,0]-list_open[i+1,0])/list_open[i+1,0]
+		'''
+		if list_rsi[i-1]>(100-optimal_rsi) and list_rsi[i]<(100-optimal_rsi):
+			#print(i)
+			if list_close[i+1]-list_open[i+1]>0:
+				#chi so bao xanh, ket qua tiep theo ve xanh
+				nb_dem_predict_success+=1
+				total_profit+=(list_close[i+1,0]-list_open[i+1,0])/list_open[i+1,0]
+			else:
+				nb_dem_predict_fail+=1
+				total_profit+=(list_close[i+1,0]-list_open[i+1,0])/list_open[i+1,0]
+	
+	print('-----')
+	print('total_profit',total_profit)
 	print('nb_dem_predict_success',nb_dem_predict_success)
 	print('nb_dem_predict_fail',nb_dem_predict_fail)
-	print('optimal_rsi:%s and % success'%(optimal_rsi,nb_dem_predict_success/(nb_dem_predict_fail+nb_dem_predict_success)))
+	print('optimal_rsi:%s and %s'%(optimal_rsi,nb_dem_predict_success/(nb_dem_predict_fail+nb_dem_predict_success)))
 
 #ve gia tri trung binh va chi bao
-
+'''
 plt.subplot(2,1,1)
 plt.plot(range(len(list_close)),list_close,'.')
 
@@ -139,3 +148,4 @@ plt.plot(range(nbs_point),np.ones((nbs_point,1))*70,'r')
 
 plt.show()
 #plt.savefig('demo.pdf')
+'''
